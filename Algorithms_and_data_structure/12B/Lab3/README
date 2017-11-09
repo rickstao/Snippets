@@ -1,0 +1,14 @@
+This lab contains CommandLineArguments.c, FileIO.c, standardInput.c, hello.c, README, Makefile, and FileReverse.c
+
+hello.c prints “hello” to the console.
+
+CommandLineArguments.c takes in the command line arguments and prints it into the console
+
+FileIO.c takes in the content of a file and prints it onto a new file.
+
+standardInput.c reads three integers from stdin and prints them to stdout
+
+FileReverse.c reverses the content in file in and prints onto file out.
+
+References/Resources used: 
+http://www.cs.bu.edu/teaching/cpp/string/array-vs-ptr/

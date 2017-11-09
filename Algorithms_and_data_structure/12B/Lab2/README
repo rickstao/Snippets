@@ -1,0 +1,13 @@
+This lab contains FileCopy.java, FileTokens.java, FileReverse.java, Makefile, and a README.
+
+FileCopy.java takes in the content of an input file and outputs it into an out file.
+
+FileTokens.java contains input count and prints out the content on each line without space.
+
+FileReverse.java takes content from in, reverses it, and prints in out.
+
+References/Resources used: 
+
+FileCopy.java and FileCopy.java from Lab2
+
+http://docs.oracle.com/javase/7/docs/api/

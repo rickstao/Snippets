@@ -1,0 +1,28 @@
+Ruikang Tao
+rtao6
+PA3
+
+This README file includes descriptions of the files submitted for this assignment.
+
+List.java
+	Abstract data type contains manipulative methods of doubly linked list of
+	objects.
+
+Matrix.java
+	Abstract data type contains manipulative methods of arrays of list objects
+
+ListTest.java
+	A list ADT test client that tests the functions of List.java
+
+MatrixTest.java
+	A Matrix ADT test client for Matrix functions.
+
+Sparse.java
+	Main program that takes in data from input file and performs operations then
+	prints results into output file.
+
+Makefile
+	Compiles java files and creates an executable Sparse.jar file. Includes clean 		and submit.
+
+README
+	Table of contents of the files submitted.

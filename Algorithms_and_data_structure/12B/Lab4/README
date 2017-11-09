@@ -1,0 +1,12 @@
+This lab contains cArrays.c, alphaNum.c, charType.c, README, and Makefile.
+hello.c prints “hello” to the console.
+
+alphaNum.c reads any number of strings from the command line and classifies each character as either alphanumeric, or non-alphanumeric
+
+cArrays.c creates memory space and assigns char to its type.
+
+charType.c takes in content from file in and sort them into the output file, out.
+
+References/Resources used: 
+https://discussions.apple.com/thread/2693008?tstart=0
+http://stackoverflow.com/questions/8409946/how-do-i-make-this-file-sh-executable-via-double-click

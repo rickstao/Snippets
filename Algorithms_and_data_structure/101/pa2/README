@@ -1,0 +1,24 @@
+Ruikang Tao
+rtao6
+PA2
+
+This README file includes descriptions of the files submitted for this assignment.
+
+List.c
+	Abstract data type contains manipulative methods of doubly linked list.
+
+Lex.c
+	Main program containing insertion sort algorithm takes an input file and
+	write result on the output file.
+
+List.h
+	Header file for List ADT.
+
+ListClient.c
+	Test client for List ADT functions.
+
+Makefile
+	Compiles java files and creates an executable Lex.jar file. Includes clean 		and submit.
+
+README
+	Table of contents of the files submitted.

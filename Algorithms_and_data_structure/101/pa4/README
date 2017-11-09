@@ -1,0 +1,28 @@
+Ruikang Tao
+rtao6
+PA4
+
+This README file includes descriptions of the files submitted for this assignment.
+
+List.c
+	Abstract data type implemented using a doubly linked list
+	and contains manipulative and access methods
+List.h
+	Header file for List ADT that declares the functions that will
+	be implemented in List.c
+Graph.c
+	Abstract data type implemented as an array of Lists and data fields
+	of the Graph. Also contains access and manipulative functions.
+Graph.h
+	Header file for Graph ADT that declares the functions that will
+	be implemented in Graph.c
+GraphTest.c
+	Test client for Graph operations
+FindPath.c
+	Main program for the Graph ADT that runs BSF search to find shortest
+	distance of the graph read from the give input file.
+Makefile
+	Compiles the files listed above to make a GraphTest executable.
+	and a FindPath executable.
+README
+	Table of contents with submitted files descriptions.

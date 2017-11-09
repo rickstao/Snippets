@@ -1,0 +1,102 @@
+Script started on Sat 03 Dec 2016 06:08:28 PM PST
+[?1034hbash-4.2$ cat VectorTest.java
+/*  This program was done by myself (Ruikang Tao). 
+    I spent about 3 hours working on this program. Thank you for taking your time
+    to grade this assignment.
+*/
+
+/**
+    *Assignment #5.
+    *This program generates a class taht contains vector calculations.
+    *Author: Ruikang Tao (rtao6@ucsc.edu)
+*/
+/**
+ * Created by ruikangtao on 11/29/16.
+ */
+class VectorTest{
+    public static void main(String[]args){
+        Vector a = new Vector(1.1,2.8);
+        Vector b = new Vector(8.2,6.3);
+        int c =5;
+
+        System.out.println("The sum of two vectors is " + a.sum(b));
+        System.out.println("The difference of two vectors is " + a.diff(b));
+        System.out.println("The magnitude is " + a.mag());
+        System.out.println("The scalar product is " + a.scalar(b,c));
+        System.out.println("The dot product is " + a.dot(b));
+        System.out.println("The angle between two vectors is " + a.angle(b));
+    }
+}
+bash-4.2$ cat Vector.java
+class Vector {
+    public int sum;
+    public int diff;
+    public double mag;
+    public double angle;
+    public double x;
+    public double y;
+
+    public Vector(){
+        int x = 0;
+        int y = 0;
+    }
+
+    //set parameters
+    public Vector(double i, double j){
+        x=i;
+        y=j;
+    }
+
+    //add brackets to the vector expression
+    public String toString(){
+        return("<" + this.x + "," + this.y +">");
+    }
+
+    //function calculating the sum of the vectors
+    public Vector sum(Vector a){
+        Vector s = new Vector(this.x + a.x, this.y + a.y);
+        return s;
+    }
+
+    //fuction calculating the difference of the vectors
+    public Vector diff(Vector a){
+        Vector s = new Vector(this.x - a.x, this.y - a.y);
+        return s;
+    }
+
+    //function calculating the magnitude of the vector
+    public double mag(){
+        double mag = Math.sqrt(this.x * this.x + this.y * this.y);
+        return mag;
+
+    }
+
+    //function calculating the scalar product
+    public Vector scalar(Vector a, int b){
+        Vector s = new Vector(this.x * b, this.y * b);
+        return s;
+    }
+
+    //function calculating the dot product
+    public double dot(Vector a){
+        double d = this.x * a.x + this.y * a.y;
+        return d;
+    }
+
+    //function calculating the angle between two vectors
+    public double angle(Vector a){
+        double angle = Math.toDegrees(Math.acos( this.dot(a)/(this.mag()*a.mag()) ));
+        return angle;
+    }
+}bash-4.2$ javac VectorTest.java
+bash-4.2$ java VectorTest
+The sum of two vectors is <9.299999999999999,9.1>
+The difference of two vectors is <-7.1,-3.5>
+The magnitude is 3.0083217912982647
+The scalar product is <5.5,14.0>
+The dot product is 26.659999999999997
+The angle between two vectors is 31.01745452901609
+bash-4.2$ exit
+exit
+
+Script done on Sat 03 Dec 2016 06:09:18 PM PST

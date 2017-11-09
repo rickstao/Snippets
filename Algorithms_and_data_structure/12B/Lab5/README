@@ -1,0 +1,14 @@
+//-----------------------------------------------------------------------------
+// README
+// Ruikang Tao
+// rtao6
+// CMPS 12M lab5
+//-----------------------------------------------------------------------------
+
+This lab contains Dictionary.c, DictionaryClient.c, Dictionary.h, IntegerLinkedList.c, IntegerLinkedList.h, README, and Makefile.
+
+DictionaryClient reads from input file to performs operations. The results are printed into an output file.
+
+References/Resources used:
+http://stackoverflow.com/questions/21180248/fgets-to-read-line-by-line-in-files
+https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm

@@ -1,0 +1,777 @@
+Script started on Wed Nov 23 17:59:01 2016
+[?1034hbash-3.2$ cat TTT3D.java
+/*	This program was done by myself (Ruikang Tao). My knowledge knowledge in java
+ 	is, in fact, very limited, so I did put a good amount of time in this program,
+ 	and received help from TAs and MSI leaders.
+ 	I spent about 8 hours working on this program. Thank you for taking your time
+ 	to grade this assignment.
+*/
+
+/**
+	*Assignment #4.
+	*This program generates a Tic Tac Toe on a 4X4X4 three dimensional board layout.
+	*Author: Ruikang Tao (rtao6@ucsc.edu)
+*/
+
+
+import java.util.*;
+import java.io.*;
+
+
+public class TTT3D{
+
+	
+	static boolean aiMoved = false;
+
+	
+	static final int[][][] lines = {
+
+	{{0,0,0},{0,0,1},{0,0,2},{0,0,3}},  //lev 0; row 0   rows in each lev
+	{{0,1,0},{0,1,1},{0,1,2},{0,1,3}},  //       row 1     
+	{{0,2,0},{0,2,1},{0,2,2},{0,2,3}},  //       row 2     
+	{{0,3,0},{0,3,1},{0,3,2},{0,3,3}},  //       row 3     
+	{{1,0,0},{1,0,1},{1,0,2},{1,0,3}},  //lev 1; row 0     
+	{{1,1,0},{1,1,1},{1,1,2},{1,1,3}},  //       row 1     
+	{{1,2,0},{1,2,1},{1,2,2},{1,2,3}},  //       row 2     
+	{{1,3,0},{1,3,1},{1,3,2},{1,3,3}},  //       row 3     
+	{{2,0,0},{2,0,1},{2,0,2},{2,0,3}},  //lev 2; row 0     
+	{{2,1,0},{2,1,1},{2,1,2},{2,1,3}},  //       row 1     
+	{{2,2,0},{2,2,1},{2,2,2},{2,2,3}},  //       row 2       
+	{{2,3,0},{2,3,1},{2,3,2},{2,3,3}},  //       row 3     
+	{{3,0,0},{3,0,1},{3,0,2},{3,0,3}},  //lev 3; row 0     
+	{{3,1,0},{3,1,1},{3,1,2},{3,1,3}},  //       row 1 
+	{{3,2,0},{3,2,1},{3,2,2},{3,2,3}},  //       row 2       
+	{{3,3,0},{3,3,1},{3,3,2},{3,3,3}},  //       row 3           
+	{{0,0,0},{0,1,0},{0,2,0},{0,3,0}},  //lev 0; col 0   cols in each lev
+	{{0,0,1},{0,1,1},{0,2,1},{0,3,1}},  //       col 1    
+	{{0,0,2},{0,1,2},{0,2,2},{0,3,2}},  //       col 2    
+	{{0,0,3},{0,1,3},{0,2,3},{0,3,3}},  //       col 3    
+	{{1,0,0},{1,1,0},{1,2,0},{1,3,0}},  //lev 1; col 0     
+	{{1,0,1},{1,1,1},{1,2,1},{1,3,1}},  //       col 1    
+	{{1,0,2},{1,1,2},{1,2,2},{1,3,2}},  //       col 2    
+	{{1,0,3},{1,1,3},{1,2,3},{1,3,3}},  //       col 3    
+	{{2,0,0},{2,1,0},{2,2,0},{2,3,0}},  //lev 2; col 0     
+	{{2,0,1},{2,1,1},{2,2,1},{2,3,1}},  //       col 1    
+	{{2,0,2},{2,1,2},{2,2,2},{2,3,2}},  //       col 2    
+	{{2,0,3},{2,1,3},{2,2,3},{2,3,3}},  //       col 3    
+	{{3,0,0},{3,1,0},{3,2,0},{3,3,0}},  //lev 3; col 0     
+	{{3,0,1},{3,1,1},{3,2,1},{3,3,1}},  //       col 1
+	{{3,0,2},{3,1,2},{3,2,2},{3,3,2}},  //       col 2
+	{{3,0,3},{3,1,3},{3,2,3},{3,3,3}},  //       col 3
+        {{0,0,0},{1,0,0},{2,0,0},{3,0,0}},  //cols in vert plane in front
+        {{0,0,1},{1,0,1},{2,0,1},{3,0,1}},
+        {{0,0,2},{1,0,2},{2,0,2},{3,0,2}},
+        {{0,0,3},{1,0,3},{2,0,3},{3,0,3}},
+        {{0,1,0},{1,1,0},{2,1,0},{3,1,0}},  //cols in vert plane one back
+        {{0,1,1},{1,1,1},{2,1,1},{3,1,1}},
+        {{0,1,2},{1,1,2},{2,1,2},{3,1,2}},
+        {{0,1,3},{1,1,3},{2,1,3},{3,1,3}},
+        {{0,2,0},{1,2,0},{2,2,0},{3,2,0}},  //cols in vert plane two back
+        {{0,2,1},{1,2,1},{2,2,1},{3,2,1}},
+        {{0,2,2},{1,2,2},{2,2,2},{3,2,2}},
+        {{0,2,3},{1,2,3},{2,2,3},{3,2,3}},
+        {{0,3,0},{1,3,0},{2,3,0},{3,3,0}},  //cols in vert plane in rear
+        {{0,3,1},{1,3,1},{2,3,1},{3,3,1}},
+        {{0,3,2},{1,3,2},{2,3,2},{3,3,2}},
+        {{0,3,3},{1,3,3},{2,3,3},{3,3,3}},
+        {{0,0,0},{0,1,1},{0,2,2},{0,3,3}},  //diags in lev 0
+        {{0,3,0},{0,2,1},{0,1,2},{0,0,3}},
+        {{1,0,0},{1,1,1},{1,2,2},{1,3,3}},  //diags in lev 1
+        {{1,3,0},{1,2,1},{1,1,2},{1,0,3}},
+        {{2,0,0},{2,1,1},{2,2,2},{2,3,3}},  //diags in lev 2
+        {{2,3,0},{2,2,1},{2,1,2},{2,0,3}},
+        {{3,0,0},{3,1,1},{3,2,2},{3,3,3}},  //diags in lev 3
+        {{3,3,0},{3,2,1},{3,1,2},{3,0,3}},
+        {{0,0,0},{1,0,1},{2,0,2},{3,0,3}},  //diags in vert plane in front
+        {{3,0,0},{2,0,1},{1,0,2},{0,0,3}},
+        {{0,1,0},{1,1,1},{2,1,2},{3,1,3}},  //diags in vert plane one back
+        {{3,1,0},{2,1,1},{1,1,2},{0,1,3}},
+        {{0,2,0},{1,2,1},{2,2,2},{3,2,3}},  //diags in vert plane two back
+        {{3,2,0},{2,2,1},{1,2,2},{0,2,3}},
+        {{0,3,0},{1,3,1},{2,3,2},{3,3,3}},  //diags in vert plane in rear
+        {{3,3,0},{2,3,1},{1,3,2},{0,3,3}},
+        {{0,0,0},{1,1,0},{2,2,0},{3,3,0}},  //diags left slice      
+        {{3,0,0},{2,1,0},{1,2,0},{0,3,0}},        
+        {{0,0,1},{1,1,1},{2,2,1},{3,3,1}},  //diags slice one to right
+        {{3,0,1},{2,1,1},{1,2,1},{0,3,1}},        
+        {{0,0,2},{1,1,2},{2,2,2},{3,3,2}},  //diags slice two to right      
+        {{3,0,2},{2,1,2},{1,2,2},{0,3,2}},        
+        {{0,0,3},{1,1,3},{2,2,3},{3,3,3}},  //diags right slice      
+        {{3,0,3},{2,1,3},{1,2,3},{0,3,3}},        
+        {{0,0,0},{1,1,1},{2,2,2},{3,3,3}},  //cube vertex diags
+        {{3,0,0},{2,1,1},{1,2,2},{0,3,3}},
+        {{0,3,0},{1,2,1},{2,1,2},{3,0,3}},
+        {{3,3,0},{2,2,1},{1,1,2},{0,0,3}}
+    };
+
+
+
+    public static void main(String[] args) throws Exception{
+
+    	aiMoved = false; //set ai stationary and wait for the player to make a move
+
+    	int [][][] board = new int[4][4][4]; //declaring 3d array
+
+    	while(true){
+
+    		aiMoved = false;
+
+    		printBoard(board); //print the board	
+
+    		System.out.print("Type a 3 digit number where each number can only be 0-3: ");
+
+    		Scanner in =  new Scanner(System.in); //take user input
+
+    		int userMove = in.nextInt();
+
+    		int level = userMove/100;
+
+    		int row = userMove%100/10;
+
+    		int column = userMove%10;
+
+    		board[level][row][column] = 5;
+    		
+    		checkGame(board);
+
+    		comRand(board);
+    	}
+    }
+
+
+    //ai moves every time after the player makes a move
+    public static void comRand(int[][][] board){
+    	if (!aiMoved) {
+    		while(true){
+    			int a=(int)(Math.random()*4);
+    			int b=(int)(Math.random()*4);
+    			int c=(int)(Math.random()*4);
+    			if (board[a][b][c] == 0) {
+    				board[a][b][c] = 1;
+    				break;
+    			}
+    		}
+    	}
+    }
+    
+
+    //fuction to print the board
+    public static void printBoard(int[][][] board){
+    	int draw = 0;
+		//creating the format for the board
+    	for(int i=3; i>=0; i--){
+
+    		for(int j=3; j>=0; j--){
+
+    			for(int h=j+1; h>0 ;h--)
+
+    				System.out.print(" ");
+
+    			System.out.print(i + "" + j + " ");
+
+    			for(int k=0; k<4; k++){
+    				if(board[i][j][k] == 0)
+
+    					System.out.print("_ ");
+
+    				if(board[i][j][k] == 1){
+
+    					System.out.print("o "); //ai input
+    					draw++;
+    				}
+    				if(board[i][j][k] == 5){
+    					System.out.print("x "); //user input
+    				}
+    			}
+    			System.out.println();
+    		}
+    		System.out.println();
+    	}
+    	System.out.println("   0 1 2 3");
+    }
+
+
+    //function checks whether games
+    public static void checkGame(int [][][] board){
+    	for (int i=0; i<76; i++){
+    		int sum=0;
+    		for (int j=0; j<4;j++){
+    		//searches for values in the array
+			int a=lines[i][j][0];  
+			int b=lines[i][j][1];
+			int c=lines[i][j][2];	
+			sum+= board[a][b][c];
+			}
+
+			//ai wins
+			if (sum == 3 && aiMoved == false) {
+				for (int j=0; j<4 ;j++) {
+					int a=lines[i][j][0];
+					int b=lines[i][j][1];
+					int c=lines[i][j][2];
+					if (board[a][b][c] == 0) {
+						board[a][b][c] = 1;
+						printBoard(board);
+						System.out.println("The AI is the winner!");
+						System.exit(1);
+						
+					}	
+				}
+			}
+
+			if (sum == 15 && aiMoved == false) {
+				for (int j=0; j<4 ;j++) {
+					int a=lines[i][j][0];
+					int b=lines[i][j][1];
+					int c=lines[i][j][2];
+					if (board[a][b][c] == 0) {
+						board[a][b][c] = 1;
+						aiMoved = true;
+
+					}			
+				}
+			}
+
+			//user wins
+			if (sum == 20 && aiMoved == false) {
+				printBoard(board);
+				System.out.println("The User is the winner!");
+				System.exit(1);
+			}
+		}	
+	}
+
+
+	//check if rows and columns are filled by summing each slot
+	public static void checkRow(int [][][] board){
+		if (!aiMoved) {
+			for (int i=0; i<4 ;i++ ) {
+				for (int j=0;j<4 ;j++ ) {
+					int sum1 = 0;
+					for (int k=0;k<4 ;k++ ) //gets sum of row being stationary
+					sum1 += board[i][j][k];
+					for (int p=0;p<4 ;p++ ) {
+						int sum2 = sum1;
+						for (int h=0;h<4 ;h++ ) {
+							if (j!=h) {
+								sum2 += board[i][h][p];
+							}//end of h if statement
+						}//end of h loop
+						if (!aiMoved && (sum2 == 4 || sum2 == 20)) {
+							board[i][j][p] = 1;
+							aiMoved = true;
+						}//end of if statement with 4 and 20
+					}//end of p loop
+				}//end of j loop
+			}//end of i loop
+		}//end if
+	}//end of function
+
+
+	//check if two diagonals are filled by summing each slot
+	public static void checkDiag(int[][][] board){
+		if (!aiMoved) {
+			for (int i=0;i<4 ;i++ ) {
+				int fRow=0;
+				int bRow=0;
+				int temp=3;
+
+				for (int h=0;h<4 ;h++,temp-- ) {
+					fRow += board[i][h][h];
+					bRow += board[i][h][temp];
+				}
+
+				for (int j=0;j<4 ;j++ ) {
+				 	temp =3;
+				 	int m=0;
+				 	int valueRow1 = fRow;
+				 	int valueRow2 = bRow;
+				 	for (int k=0;k<4 ;k++,temp--) {
+				 		if (j!=k) 
+				 			valueRow1 = board[i][j][k];
+				 		if (j!=temp) 
+				 			valueRow2 = board[i][j][k];
+				 		else
+				 			m=k;		
+					// if statement for valueRow1 and valueRow2
+					}
+					if (!aiMoved && (valueRow1 == 4 || valueRow1 == 20)) {
+						board[i][j][j] = 1;
+						aiMoved = true;
+					}//end of if statement with 4 and 20 valuerow1 
+					if (!aiMoved && (valueRow2 == 4 || valueRow2 == 20)) {
+						board[i][j][m] = 1;
+						aiMoved = true;
+					}// end of 2nd if statement with 4 and 20 for valuerow2 			
+				}
+
+				for (int j=0;j<4 ;j++ ) {
+					temp =3;
+					int m=0;
+					int vRow1 = fRow;
+					int vRow2 = bRow;
+					for (int k=0;k<4 ;k++,temp--) {
+						if (j!=k) 
+							vRow1 = board[i][k][j];
+						if (j!=temp) 
+							vRow2 = board[i][k][j];
+						else
+							m=k;
+					}//end of k loop
+					if (!aiMoved && (vRow1 == 4 || vRow1 == 20)) {
+						board[i][j][j] = 1;
+						aiMoved = true;
+					}//end of if statement with 4 and 20 valuerow1 
+					if (!aiMoved && (vRow2 == 4 || vRow2 == 20)) {
+						board[i][m][j] = 1;
+						aiMoved = true;
+					}
+				}//end of i loop
+			}//end of first if statement
+		}
+	}//end of function
+}bash-3.2$ javac[K[K[K[K[Kjava TTT3D
+    33 _ _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ _ 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ _ _ _ 
+ 20 _ _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ _ _ _ 
+  11 _ _ _ _ 
+ 10 _ _ _ _ 
+
+    03 _ _ _ _ 
+   02 _ _ _ _ 
+  01 _ _ _ _ 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 112
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ _ 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ _ _ _ 
+ 20 _ _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ _ _ _ 
+  11 _ _ x _ 
+ 10 _ _ _ _ 
+
+    03 _ _ _ _ 
+   02 _ _ _ _ 
+  01 _ _ _ _ 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 122
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ _ 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ _ _ _ 
+ 20 _ _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ _ x _ 
+  11 o _ x _ 
+ 10 _ _ _ _ 
+
+    03 _ _ _ _ 
+   02 _ _ _ _ 
+  01 _ _ _ _ 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 121
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ _ 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ o _ _ 
+ 20 _ _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ x x _ 
+  11 o _ x _ 
+ 10 _ _ _ _ 
+
+    03 _ _ _ _ 
+   02 _ _ _ _ 
+  01 _ _ _ _ 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 213
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ _ 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ o _ x 
+ 20 _ _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ x x _ 
+  11 o _ x _ 
+ 10 _ _ _ _ 
+
+    03 _ _ o _ 
+   02 _ _ _ _ 
+  01 _ _ _ _ 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 313
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ x 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ x x _ 
+  11 o _ x _ 
+ 10 _ _ _ _ 
+
+    03 _ _ o _ 
+   02 _ _ _ _ 
+  01 _ _ _ _ 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 11  013
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ _ _ x 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ _ 
+
+    03 _ _ o _ 
+   02 _ _ _ _ 
+  01 _ _ _ x 
+ 00 _ _ _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 001
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ o _ x 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ _ _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ _ 
+
+    03 _ _ o _ 
+   02 _ _ _ _ 
+  01 _ _ _ x 
+ 00 _ x _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 222
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ o _ x 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 _ _ _ _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ _ 
+
+    03 _ o o _ 
+   02 _ _ _ _ 
+  01 _ _ _ x 
+ 00 _ x _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 103
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ o _ x 
+ 30 _ _ _ _ 
+
+    23 _ _ _ _ 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ _ _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ _ _ _ 
+  01 _ _ _ x 
+ 00 _ x _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 31 02
+    33 o _ _ _ 
+   32 _ _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ _ _ 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ _ _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ _ o _ 
+  01 _ _ _ x 
+ 00 _ x _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 320
+    33 o _ _ _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ _ _ 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ _ o _ 
+  01 _ _ _ x 
+ 00 _ x _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 012
+    33 o _ _ _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ _ _ 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ _ o o 
+  01 _ _ x x 
+ 00 _ x _ _ 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 233
+    33 o _ _ _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ _ x 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ _ o o 
+  01 _ _ x x 
+ 00 _ x _ o 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 332
+    33 o _ x _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ _ x 
+   22 _ _ x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ _ o o 
+  01 _ _ x x 
+ 00 _ x o o 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 022 1
+    33 o _ x _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ _ x 
+   22 _ o x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ _ _ x 
+
+    03 _ o o _ 
+   02 _ x o o 
+  01 _ _ x x 
+ 00 _ x o o 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 101
+    33 o _ x _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ o x 
+   22 _ o x _ 
+  21 _ o _ x 
+ 20 o _ _ _ 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ x _ x 
+
+    03 _ o o _ 
+   02 _ x o o 
+  01 _ _ x x 
+ 00 _ x o o 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 203
+    33 o _ x _ 
+   32 x _ _ _ 
+  31 _ o _ x 
+ 30 _ _ x _ 
+
+    23 _ _ o x 
+   22 _ o x o 
+  21 _ o _ x 
+ 20 o _ _ x 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ x _ x 
+
+    03 _ o o _ 
+   02 _ x o o 
+  01 _ _ x x 
+ 00 _ x o o 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 322
+    33 o _ x _ 
+   32 x _ x _ 
+  31 _ o o x 
+ 30 _ _ x _ 
+
+    23 _ _ o x 
+   22 _ o x o 
+  21 _ o _ x 
+ 20 o _ _ x 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ x _ x 
+
+    03 _ o o _ 
+   02 _ x o o 
+  01 _ _ x x 
+ 00 _ x o o 
+
+   0 1 2 3
+Type a 3 digit number where each number can only be 0-3: 300
+    33 o _ x o 
+   32 x _ x _ 
+  31 _ o o x 
+ 30 x _ x _ 
+
+    23 _ _ o x 
+   22 _ o x o 
+  21 _ o _ x 
+ 20 o _ _ x 
+
+    13 o _ o _ 
+   12 _ x x _ 
+  11 o _ x o 
+ 10 _ x _ x 
+
+    03 _ o o _ 
+   02 _ x o o 
+  01 _ _ x x 
+ 00 _ x o o 
+
+   0 1 2 3
+The AI is the winner!
+bash-3.2$ exit
+exit
+
+Script done on Wed Nov 23 18:01:56 2016
